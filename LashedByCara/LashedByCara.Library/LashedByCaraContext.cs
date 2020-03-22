@@ -2,7 +2,7 @@
 
 namespace LashedByCara.Library
 {
-    public class Class1
+    public class LashedByCaraContext
     {
     }
 }
