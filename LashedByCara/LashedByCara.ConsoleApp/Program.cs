@@ -27,14 +27,15 @@ namespace LashedByCara.ConsoleApp
             Console.WriteLine("1. Book in for a treatment");
             Console.WriteLine("2. Details of your booking");
             Console.WriteLine("3. Past treatments");
-            Console.WriteLine("4. Nearest Location"); 
+            Console.WriteLine("4. Locations"); 
 
             var UserInput = Console.ReadLine();
             var choice = Int32.Parse(UserInput);
 
             if (choice == 1)
             {
-                // run book in class
+                // run customer class
+                // include bookin class 
             }
             else if (choice == 2)
             {
@@ -46,7 +47,10 @@ namespace LashedByCara.ConsoleApp
             }
             else if (choice == 4)
             {
-                // display locations
+                Console.WriteLine("Our primary location is in: ");
+                Console.WriteLine("Denton's Green"); 
+                Console.WriteLine("Our sister location is in: ");
+                Console.WriteLine("Eccleston"); 
             }
             else 
             {
@@ -54,6 +58,32 @@ namespace LashedByCara.ConsoleApp
                 // need something here to restart loop
 
             }
+        }
+
+        static void BookIn()
+        {
+            Console.WriteLine("What treatments would you like?"); 
+            Console.WriteLine("Please select an option: ");
+            Console.WriteLine("1. Classic Lashes"); 
+            Console.WriteLine("2. Russian Lashes");
+            Console.WriteLine("3. Lash lift and tint");
+            Console.WriteLine("4. Lash cleanse and clean");
+            Console.WriteLine("5. Lash removal"); 
+
+            var treatment = Console.ReadLine(); 
+            var treatmentchoice = Int32.Parse(treatment); 
+
+        }
+
+        static void PriceList()
+        {
+            // use sql to access db 
+            // db with treatment prices
+            // Name: Classic Lashes
+            // Price: 20 gbp
+            // Name: Russian Lashes
+            // Price: 40 gbp
+            
         }
     }
 }
