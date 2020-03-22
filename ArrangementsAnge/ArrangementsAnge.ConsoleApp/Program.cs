@@ -6,45 +6,64 @@ namespace ArrangementsAnge.ConsoleApp
     {
         static void Main(string[] args)
         {
-            
-        }
+            var menu = new ArrangementsAnge.Library();
+            var customer1 = new Customer();
+            var customer2 = new NewCustomer();
+            var product1 = new Product();
+            var order1 = new Order();
+            var order2 = new OrderHistory();
 
-        static void Customer()
-        {
-            Console.WriteLine("Welcome to Arrangements by Ange!");
-            Console.WriteLine("Please select an option below: ");
-            Console.WriteLine("i.e type 1 for option one");
-            Console.WriteLine("1. Place a new order");
-            Console.WriteLine("2. View your current order(s)");
-            Console.WriteLine("3. Previous order history");
-            Console.WriteLine("4. Store locations"); 
+            bool leave = false;
+            while (!leave)
+            {
 
-            var UserInput = Console.ReadLine();
-            var choice = Int32.Parse(UserInput);
+                Console.WriteLine("Welcome to Arrangements by Ange!");
+                Console.WriteLine("Please select an option below: ");
+                Console.WriteLine("i.e type 1 for option one");
 
-            if (choice == 1)
-            {
-               // run new order class/methods
-            }
-            else if (choice == 2)
-            {
-                // run current order class/methods
-            }
-            else if (choice == 3)
-            {
-                // display order history
-            }
-            else if (choice == 4)
-            {
-                Console.WriteLine("Our primary location is in: ");
-                Console.WriteLine("Arlington, TX"); 
-                Console.WriteLine("Our other location is in: ");
-                Console.WriteLine("New York, NY"); 
-            }
-            else 
-            {
+                 // user can log in by name (reading from customer DbSet/table) :
+                Console.WriteLine("1. Log in as an existing customer");
+
+                // user can register a new customer (writing to customer DbSet/table) :
+                Console.WriteLine("2. Log in as a new customer");
+
+                // user can see (e.g.) a list of products available at a given store (reading from several DbSets/tables) :
+                Console.WriteLine("3. See flowers available");
+
+                // user can place an order (reading and writing several DbSets/tables) :
+                Console.WriteLine("4. Place an order for a new flower arrangement"); 
+
+                 // user can view past order history
+                Console.WriteLine("5. View past order history");
+
+                var UserInput = Console.ReadLine();
+                var choice = Int32.Parse(UserInput);
+
+                if (choice == 1)
+                {
+               // existing customer class 
+                 }
+                else if (choice == 2)
+                {
+                // new customer class
+                }
+                else if (choice == 3)
+                {
+                // inventory list
+                 }
+                else if (choice == 4)
+                {
+              // place a new order 
+                }
+                 else if (choice == 5)
+                {
+                // view past order history
+                }
+                else 
+                {
                 Console.WriteLine("Invalid option choice!");
-                // need something here to restart loop
+                leave = true;
+                }
 
             }
         }
