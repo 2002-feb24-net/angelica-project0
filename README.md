@@ -1,2 +1,2 @@
 # angelica-project0
-Project 0 - Console Application, Lashed by Cara
+Project 0 - Console Application, Arrangements by Ange
