@@ -103,6 +103,7 @@ namespace Flowers.ConsoleApp
                     LastName = lastName,
                     Username =userName
                 };
+
                 context.Customer.Add(newCustomer);
                 context.SaveChanges();
             }
@@ -117,6 +118,15 @@ namespace Flowers.ConsoleApp
             System.Console.WriteLine("Please enter your username: ");
             string userName = Console.ReadLine();
 
+            // using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+            //     {
+            //     var row = context.Customer.Find();
+            //         Console.WriteLine(row.UserName);
+            //     }
+
+                // log in as an existing customer by using username. if user input == value in table, then logged in. 
+                // create another menu that doesnt include the part where it says log in (1 and 2 on original menu)
+                // run code based on choice from new menu. 
 
         }
 
@@ -276,17 +286,6 @@ namespace Flowers.ConsoleApp
                 }
                 
             }
-
-            // //  using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-            // // {
-            // //     var newOrder = new Flowers.ConsoleApp.Entities.Customer{
-            // //         FirstName = firstName,
-            // //         LastName = lastName,
-            // //         Username =userName
-            // //     };
-            // //     context.Order.Add(newOrder);
-            // //     context.SaveChanges();
-            // }
 
         }
         public static void ReadStore()

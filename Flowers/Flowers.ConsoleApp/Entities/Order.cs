@@ -5,7 +5,7 @@ namespace Flowers.ConsoleApp.Entities
 {
     public partial class Order
     {
-        public int OrderId { get; set; }
+        public int SaleId { get; set; }
         public int CustomerId { get; set; }
         public DateTime SaleDate { get; set; }
         public int StoreId { get; set; }
