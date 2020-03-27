@@ -118,15 +118,27 @@ namespace Flowers.ConsoleApp
             System.Console.WriteLine("Please enter your username: ");
             string userName = Console.ReadLine();
 
-            // using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-            //     {
-            //     var row = context.Customer.Find();
-            //         Console.WriteLine(row.UserName);
-            //     }
+            
+            using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+            {
+                
+                    try
+                    {
+                        var user = context.Customer.First(c => c.Username == userName);
+                        Menu();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        Console.WriteLine("Invalid username");
+                        ReadCustomer();
+                    }
 
-                // log in as an existing customer by using username. if user input == value in table, then logged in. 
-                // create another menu that doesnt include the part where it says log in (1 and 2 on original menu)
-                // run code based on choice from new menu. 
+                
+                
+            };
+
+            
 
         }
 
