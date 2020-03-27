@@ -142,6 +142,23 @@ namespace Flowers.ConsoleApp
 
         public static void AddOrder()
         {
+            Console.WriteLine("What store would you like to purchase from?");
+            Console.WriteLine("Please select a location: ");
+            Console.WriteLine("1. Texas");
+            Console.WriteLine("2. New York");
+            var storechoice = int.Parse(Console.ReadLine());
+
+            using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+            {
+                var storeinput = new Inventory(){
+                    StoreId = storechoice
+                };
+
+                context.Inventory.Add(storeinput);
+                context.SaveChanges();
+            }
+
+
             Console.WriteLine("What would you like to purchase?");
             Console.WriteLine("Please select what flower you would like: "); 
             Console.WriteLine("1. Rose");
@@ -215,22 +232,57 @@ namespace Flowers.ConsoleApp
             Console.WriteLine("2. New York"); 
             var input = int.Parse(Console.ReadLine()); 
 
-           if(input == 1)
+            if (input == 1)
             {
                 using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
                 {
-                    var row = context.Inventory.First();
-                    Console.WriteLine(row.ProductId +" "+  row.InventoryCount );
-                }
+                        var row1 = context.Inventory.Find(1);
+                        Console.WriteLine("Rose amount: "+  row1.InventoryCount );
+
+                        var row2 = context.Inventory.Find(2);
+                        Console.WriteLine("Daisy amount: "+  row2.InventoryCount );
+
+                        var row3 = context.Inventory.Find(3);
+                        Console.WriteLine("Sunflower amount: "+  row3.InventoryCount );
+
+                        var row4 = context.Inventory.Find(4);
+                        Console.WriteLine("Daffodil amount: "+  row4.InventoryCount );
+
+                        var row5 = context.Inventory.Find(5);
+                        Console.WriteLine("Tulip amount: "+  row5.InventoryCount );
+
+                        var row6 = context.Inventory.Find(6);
+                        Console.WriteLine("Lily amount: "+  row6.InventoryCount );
+                }        
+                        
+
             }
             else 
             {
                 using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
                 {
-                var row = context.Inventory.Find(2);
-                    Console.WriteLine(row.ProductId +" "+  row.InventoryCount );
-                }
+                        var row1 = context.Inventory.Find(7);
+                        Console.WriteLine("Rose amount: "+  row1.InventoryCount );
+
+                        var row2 = context.Inventory.Find(8);
+                        Console.WriteLine("Daisy amount: "+  row2.InventoryCount );
+
+                        var row3 = context.Inventory.Find(9);
+                        Console.WriteLine("Sunflower amount: "+  row3.InventoryCount );
+
+                        var row4 = context.Inventory.Find(10);
+                        Console.WriteLine("Daffodil amount: "+  row4.InventoryCount );
+
+                        var row5 = context.Inventory.Find(11);
+                        Console.WriteLine("Tulip amount: "+  row5.InventoryCount );
+
+                        var row6 = context.Inventory.Find(12);
+                        Console.WriteLine("Lily amount: "+  row6.InventoryCount );
+                }        
+                        
             }
+                
+            
 
         }
     }
