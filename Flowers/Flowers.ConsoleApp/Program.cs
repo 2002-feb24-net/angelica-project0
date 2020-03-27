@@ -310,6 +310,7 @@ namespace Flowers.ConsoleApp
             Console.WriteLine("1. Texas");
             Console.WriteLine("2. New York"); 
             var input = int.Parse(Console.ReadLine()); 
+            
 
             if (input == 1)
             {
@@ -360,7 +361,7 @@ namespace Flowers.ConsoleApp
                 }        
                         
             }
-                
+                Console.ReadLine();
             
 
         }
@@ -374,7 +375,7 @@ namespace Flowers.ConsoleApp
                 using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
                 {
                     var row = context.Order.First(h => h.CustomerId == (context.Customer.First(p => p.Username == currentuser).CustomerId));
-                    Console.WriteLine("Your order number: " + row.SaleId + " Order date and time: "+  row.SaleDate +" Store location: "+ row.StoreId +" Order total: "+ row.OrderTotal);
+                    Console.WriteLine("Your order number: " + row.SaleId + ".. Order date and time: "+  row.SaleDate +".. Store location: "+ row.StoreId +".. Order total: "+ row.OrderTotal);
                     Console.ReadLine();
                 }
 
