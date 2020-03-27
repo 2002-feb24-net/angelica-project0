@@ -61,11 +61,14 @@ namespace Flowers.ConsoleApp
             }
         Console.WriteLine("Goodbye! Come back soon.");
         }
-// this is a menu that prompts a user to enter in a number. depending on the number they choose will
+/// <summary>
+/// this is a menu that prompts a user to enter in a number. depending on the number they choose will
 // dictate what method is called. 
+/// </summary>
+
         public static int Menu()
         {
-            int [] UserOptions = {1, 2, 3, 4, 5, 6};
+            int [] UserOptions = {1, 2, 3, 4, 5, 6, 7};
             bool choice = true;
             int UserChoice = 0;
             do{
@@ -97,7 +100,12 @@ namespace Flowers.ConsoleApp
         {
             Console.WriteLine("Goodbye! Come back soon.");
         }
-
+/// <summary>
+/// This method, AddCustomer, is used to gather a users first and last name as well as a username.
+/// the username is then associated with the primary key of the customer table of the database
+/// This is for first time users only.
+/// </summary>
+/// <returns></returns>
         public static string AddCustomer()
         {
             System.Console.WriteLine("Please enter your first name: ");
@@ -123,6 +131,14 @@ namespace Flowers.ConsoleApp
             return userName;
 
         }
+
+/// <summary>
+/// This method, ReadCustomer() is used for a user that already has a username. Once they log in, 
+/// they can place an order and the order will be saved into the Order table of the database. 
+/// The order is then added to the orders table and contains the primary key associated with their 
+/// username. 
+/// </summary>
+/// <returns></returns>
 
         public static string ReadCustomer()
         {
@@ -151,6 +167,14 @@ namespace Flowers.ConsoleApp
             
 
         }
+/// <summary>
+/// In this method called AddOrder, you can see that there is a "currentuser" string. This is associated
+/// with the user's CustomerID, which is the primary key value associated with their username. 
+/// it allows the user to select a store to order from, then select any number of flowers to order in a cart,
+///  and then it adds up the total and displays the price to the user.
+/// In addition, it decrements products from the inventory when an order is placed.
+/// 
+/// </summary>
 
         public static void AddOrder(string currentuser)
         {
@@ -232,7 +256,7 @@ namespace Flowers.ConsoleApp
              {
                 total = total + item.Value;
              }
-                Console.WriteLine("Your total is " + total);
+                Console.WriteLine("Your total is $" + total);
                 Console.ReadLine();
                 var getid = context.Customer.First(g => g.Username == currentuser).CustomerId;
 
@@ -249,6 +273,10 @@ namespace Flowers.ConsoleApp
             }
 
         }
+
+/// <summary>
+///  This allows a customer to view the store addresses depending on what state they choose 
+/// </summary>
         public static void ReadStore()
         {
             Console.WriteLine("To see store addresses, please select a state");
@@ -273,6 +301,9 @@ namespace Flowers.ConsoleApp
                 }
             }
         }
+/// <summary>
+/// This allows a user to select a store location, and then display the inventory of the store.
+/// </summary>
         public static void ReadInventory()
         {
             Console.WriteLine("To see the inventory, please select a store location: ");
@@ -333,9 +364,14 @@ namespace Flowers.ConsoleApp
             
 
         }
-
+/// <summary>
+/// This allows a user to see their order history. 
+/// </summary>
+/// <param name="currentuser"></param>
         public static void ReadOrder(string currentuser)
         {
+            Console.WriteLine("Would you like to display your order history? y/n");
+
 
         }
     }
