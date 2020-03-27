@@ -11,27 +11,32 @@ using System.Data.SqlClient;
 namespace Flowers.ConsoleApp
 {
     class Program
-    {
+    { 
+       
        static void Main(string[] args)
         {
             bool loop = true;
+            List<string> currentuser = new List<string>();
             while(loop)
             {
+                
                 int userOption = Menu();
                 if (userOption == 1)
                 {
                     // creates a new customer in the db
-                    AddCustomer();
+                    currentuser.Add(AddCustomer());
                 }
                 else if (userOption == 2)
                 {
                     // reads an existing customer in the db
-                    ReadCustomer();
+                   
+                    currentuser.Add(ReadCustomer());
                 }
                 else if (userOption == 3)
                 {
                     // creates a new order for a product
-                    AddOrder();
+                    
+                    AddOrder(currentuser[0]);
                 }
                 else if (userOption == 4)
                 {
@@ -43,13 +48,18 @@ namespace Flowers.ConsoleApp
                     // tells inventory based on store location
                     ReadInventory();
                 }
+                else if (userOption == 6)
+                {
+                    ReadOrder(currentuser[0]);
+                }
+               
                 else
                 {
                     loop = false;
-                    // exits 
+                    //exits
                 }
             }
-            Console.WriteLine("Goodbye! Come back soon.");
+        Console.WriteLine("Goodbye! Come back soon.");
         }
 // this is a menu that prompts a user to enter in a number. depending on the number they choose will
 // dictate what method is called. 
@@ -67,7 +77,8 @@ namespace Flowers.ConsoleApp
                 Console.WriteLine("3. Place an order");
                 Console.WriteLine("4. View store locations");
                 Console.WriteLine("5. View store inventory");
-                Console.WriteLine("6. Exit"); 
+                Console.WriteLine("6. View order history");
+                Console.WriteLine("7. Exit"); 
 
                 UserChoice = int.Parse(Console.ReadLine());
                 for(int i=0; i < UserOptions.Length; i++)
@@ -87,7 +98,7 @@ namespace Flowers.ConsoleApp
             Console.WriteLine("Goodbye! Come back soon.");
         }
 
-        public static void AddCustomer()
+        public static string AddCustomer()
         {
             System.Console.WriteLine("Please enter your first name: ");
             string firstName = Console.ReadLine();
@@ -109,10 +120,11 @@ namespace Flowers.ConsoleApp
                 context.Customer.Add(newCustomer);
                 context.SaveChanges();
             }
+            return userName;
 
         }
 
-        public static void ReadCustomer()
+        public static string ReadCustomer()
         {
             System.Console.WriteLine("Log in as an existing customer");
             System.Console.WriteLine("Please enter your username: ");
@@ -125,40 +137,36 @@ namespace Flowers.ConsoleApp
                     try
                     {
                         var user = context.Customer.First(c => c.Username == userName);
-                    
+                        return user.Username;
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex);
                         Console.WriteLine("Invalid username");
-                        ReadCustomer();
+                        return ReadCustomer();
                     }
 
             };
-
+            return null;
             
 
         }
 
-        public static void AddOrder()
+        public static void AddOrder(string currentuser)
         {
             Console.WriteLine("What store would you like to purchase from?");
             Console.WriteLine("Please select a location: ");
             Console.WriteLine("1. Texas");
             Console.WriteLine("2. New York");
             var storechoice = int.Parse(Console.ReadLine());
+            
+            bool done = false;
+            Dictionary<string,double> cart = new Dictionary<string, double>();
+            double price = 0;
+            string flower = "";
 
-            using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+            while (!done)
             {
-                var storeinput = new Inventory(){
-                    StoreId = storechoice
-                };
-
-                context.Inventory.Add(storeinput);
-                context.SaveChanges();
-            }
-
-
             Console.WriteLine("What would you like to purchase?");
             Console.WriteLine("Please select what flower you would like: "); 
             Console.WriteLine("1. Rose");
@@ -174,21 +182,27 @@ namespace Flowers.ConsoleApp
             Console.WriteLine("6. Lily"); 
 
             var flowerchoice = int.Parse(Console.ReadLine()); 
+            
             using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
             {
                 var row = new Product();
+
                 while(row.ProductName == null)
                 {
                     try
                     {
                         row = context.Product.First(p => p.ProductId == flowerchoice);
+                        price = Convert.ToDouble(row.ProductPrice);
+                        flower = row.ProductName;
 
-                        Console.WriteLine("Thank you for purchasing a " + row.ProductName + "! Your total is $" + row.ProductPrice);
+                        Console.WriteLine("Thank you for purchasing a " + row.ProductName);
+                        Console.ReadLine();
                         // here we need to decrement the inventory count as well as add a new order to the orders table with appropriate data
                         var inventoryobject = context.Inventory.First(c => c.ProductId == flowerchoice);
                         inventoryobject.InventoryCount = inventoryobject.InventoryCount - 1;
                         context.Update(inventoryobject);
                         context.SaveChanges();
+
                     }
                     catch (Exception ex)
                     {
@@ -199,6 +213,40 @@ namespace Flowers.ConsoleApp
                 }
                 
             };
+
+            cart.Add(flower, price);
+            Console.WriteLine("Would you like to purchase another flower? y/n");
+            string moreflower = Console.ReadLine();
+            if (moreflower != "y")
+            {
+                done = true;
+            }
+
+            }
+
+            DateTime now = DateTime.Now;
+            using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+            {
+             double total = 0;
+             foreach(var item in cart)
+             {
+                total = total + item.Value;
+             }
+                Console.WriteLine("Your total is " + total);
+                Console.ReadLine();
+                var getid = context.Customer.First(g => g.Username == currentuser).CustomerId;
+
+                var newOrder = new Order(){
+                    StoreId = storechoice,
+                    SaleDate = now,
+                    CustomerId = getid,
+                    OrderTotal = Convert.ToDecimal(total)
+                    
+                };
+                        context.Order.Add(newOrder);
+                        context.SaveChanges();
+
+            }
 
         }
         public static void ReadStore()
@@ -283,6 +331,11 @@ namespace Flowers.ConsoleApp
             }
                 
             
+
+        }
+
+        public static void ReadOrder(string currentuser)
+        {
 
         }
     }
