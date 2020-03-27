@@ -147,145 +147,31 @@ namespace Flowers.ConsoleApp
             Console.WriteLine("6. Lily"); 
 
             var flowerchoice = int.Parse(Console.ReadLine()); 
-            if(flowerchoice == 1)
+            using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
             {
-        
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+                var row = new Product();
+                while(row.ProductName == null)
                 {
-                var row = context.Product.First();
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                };    
+                    try
+                    {
+                        row = context.Product.First(p => p.ProductId == flowerchoice);
 
-
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 4.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
+                        Console.WriteLine("Thank you for purchasing a " + row.ProductName + "! Your total is $" + row.ProductPrice);
+                        // here we need to decrement the inventory count as well as add a new order to the orders table with appropriate data
+                        var inventoryobject = context.Inventory.First(c => c.ProductId == flowerchoice);
+                        inventoryobject.InventoryCount = inventoryobject.InventoryCount - 1;
+                        context.Update(inventoryobject);
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        Console.WriteLine("Invalid input");
+                        break;
+                    }
                 }
                 
-            }
-            else if (flowerchoice == 2)
-            {
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var row = context.Product.Find(2);
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                    DateTime orderdate = DateTime.Now;
-                }
-
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 1.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
-                }
-            }
-            else if (flowerchoice == 3)
-            {
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var row = context.Product.Find(3);
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                    DateTime orderdate = DateTime.Now;
-                }
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 3.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
-                }
-            }
-            else if (flowerchoice == 4)
-            {
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var row = context.Product.Find(4);
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                    DateTime orderdate = DateTime.Now;
-                }
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 0.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
-                }
-            }
-            else if (flowerchoice == 5)
-            {
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var row = context.Product.Find(5);
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                    DateTime orderdate = DateTime.Now;
-                }
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 2.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
-                }
-            }
-            else if (flowerchoice == 6)
-            {
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var row = context.Product.Find(6);
-                    Console.WriteLine("Thank you for purchasing a " + row.ProductName +". Your total is $"+  row.ProductPrice );
-                    DateTime orderdate = DateTime.Now;
-                }
-                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
-                {
-                var newOrder = new Flowers.ConsoleApp.Entities.Order{
-                OrderTotal = 3.99M,
-                StoreId = 1,
-                SaleDate = DateTime.Now
-                };
-
-                context.Order.Add(newOrder);
-                context.SaveChanges();
-                }
-            }
-            else
-            {
-                // method calls itself in order to restart menu 
-                Console.WriteLine("Sorry, invalid option choice. Press 1 to try again, or 2 to quit.");
-                var input = int.Parse(Console.ReadLine());
-                if (input == 1)
-                {
-                    AddOrder(); 
-                }
-                else
-                {
-                    Quit();
-                }
-                
-            }
+            };
 
         }
         public static void ReadStore()

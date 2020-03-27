@@ -34,8 +34,6 @@ namespace Flowers.ConsoleApp.Entities
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.CustomerId).ValueGeneratedNever();
-
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -51,9 +49,7 @@ namespace Flowers.ConsoleApp.Entities
 
             modelBuilder.Entity<Inventory>(entity =>
             {
-                entity.Property(e => e.InventoryId)
-                    .HasColumnName("InventoryID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.InventoryId).HasColumnName("InventoryID");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -63,23 +59,21 @@ namespace Flowers.ConsoleApp.Entities
                     .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Produ__3D2915A8");
+                    .HasConstraintName("FK__Inventory__Produ__57DD0BE4");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Inventory)
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Inventory__Store__3C34F16F");
+                    .HasConstraintName("FK__Inventory__Store__56E8E7AB");
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasKey(e => e.SaleId)
-                    .HasName("PK__Order__1EE3C41F6BA33307");
+                    .HasName("PK__Order__1EE3C41F335C1439");
 
-                entity.Property(e => e.SaleId)
-                    .HasColumnName("SaleID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.SaleId).HasColumnName("SaleID");
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
@@ -91,20 +85,18 @@ namespace Flowers.ConsoleApp.Entities
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__CustomerI__40058253");
+                    .HasConstraintName("FK__Order__CustomerI__5AB9788F");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.StoreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__StoreID__40F9A68C");
+                    .HasConstraintName("FK__Order__StoreID__5BAD9CC8");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.ProductId)
-                    .HasColumnName("ProductID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
                 entity.Property(e => e.ProductName)
                     .IsRequired()
@@ -115,9 +107,7 @@ namespace Flowers.ConsoleApp.Entities
 
             modelBuilder.Entity<Store>(entity =>
             {
-                entity.Property(e => e.StoreId)
-                    .HasColumnName("StoreID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.StoreId).HasColumnName("StoreID");
 
                 entity.Property(e => e.Address).HasMaxLength(200);
 
