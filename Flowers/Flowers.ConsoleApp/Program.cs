@@ -105,7 +105,6 @@ namespace Flowers.ConsoleApp
 /// the username is then associated with the primary key of the customer table of the database
 /// This is for first time users only.
 /// </summary>
-/// <returns></returns>
         public static string AddCustomer()
         {
             System.Console.WriteLine("Please enter your first name: ");
@@ -170,8 +169,9 @@ namespace Flowers.ConsoleApp
 /// <summary>
 /// In this method called AddOrder, you can see that there is a "currentuser" string. This is associated
 /// with the user's CustomerID, which is the primary key value associated with their username. 
-/// it allows the user to select a store to order from, then select any number of flowers to order in a cart,
+/// it allows the user to select a store to order from, then select any number or kind of flowers to order in a cart,
 ///  and then it adds up the total and displays the price to the user.
+/// Also includes order time.
 /// In addition, it decrements products from the inventory when an order is placed.
 /// 
 /// </summary>
@@ -367,11 +367,18 @@ namespace Flowers.ConsoleApp
 /// <summary>
 /// This allows a user to see their order history. 
 /// </summary>
-/// <param name="currentuser"></param>
+
         public static void ReadOrder(string currentuser)
         {
-            Console.WriteLine("Would you like to display your order history? y/n");
 
+                using (var context = new Flowers.ConsoleApp.Entities.FlowersContext())
+                {
+                    var row = context.Order.First(h => h.CustomerId == (context.Customer.First(p => p.Username == currentuser).CustomerId));
+                    Console.WriteLine("Your order number: " + row.SaleId + " Order date and time: "+  row.SaleDate +" Store location: "+ row.StoreId +" Order total: "+ row.OrderTotal);
+                    Console.ReadLine();
+                }
+
+            
 
         }
     }
