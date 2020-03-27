@@ -12,42 +12,44 @@ namespace Flowers.ConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+       static void Main(string[] args)
         {
-            int userOption = Menu();
-            if(userOption == 1)
+            bool loop = true;
+            while(loop)
             {
-                // creates a new customer in the db
-                AddCustomer();
+                int userOption = Menu();
+                if (userOption == 1)
+                {
+                    // creates a new customer in the db
+                    AddCustomer();
+                }
+                else if (userOption == 2)
+                {
+                    // reads an existing customer in the db
+                    ReadCustomer();
+                }
+                else if (userOption == 3)
+                {
+                    // creates a new order for a product
+                    AddOrder();
+                }
+                else if (userOption == 4)
+                {
+                    // tells store locations
+                    ReadStore();
+                }
+                else if (userOption == 5)
+                {
+                    // tells inventory based on store location
+                    ReadInventory();
+                }
+                else
+                {
+                    loop = false;
+                    // exits 
+                }
             }
-            else if (userOption == 2)
-            {
-                // reads an existing customer in the db
-                ReadCustomer();
-            }
-            else if (userOption == 3)
-            {
-                // creates a new order for a product
-                AddOrder();
-            }
-            else if (userOption == 4)
-            {
-                // tells store locations
-                ReadStore();
-            }
-            else if (userOption == 5)
-            {
-                // tells inventory based on store location
-                ReadInventory();
-            }
-            else 
-            {
-                // exits 
-                Quit();
-            }
-                
-
-
+            Console.WriteLine("Goodbye! Come back soon.");
         }
 // this is a menu that prompts a user to enter in a number. depending on the number they choose will
 // dictate what method is called. 
@@ -108,8 +110,6 @@ namespace Flowers.ConsoleApp
                 context.SaveChanges();
             }
 
-            Menu(); // here the method will call the menu to give the user the options to keep going
-
         }
 
         public static void ReadCustomer()
@@ -125,7 +125,7 @@ namespace Flowers.ConsoleApp
                     try
                     {
                         var user = context.Customer.First(c => c.Username == userName);
-                        Menu();
+                    
                     }
                     catch (Exception ex)
                     {
@@ -134,8 +134,6 @@ namespace Flowers.ConsoleApp
                         ReadCustomer();
                     }
 
-                
-                
             };
 
             
